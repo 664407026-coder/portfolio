@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Link to CSS File -->
+    <link rel="stylesheet" href="style.css" >
+</head>
+
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-card">
+            <div class="terminal-header">
+                <span class="dot dot-red"></span><span class="dot dot-yellow"></span><span class="dot dot-green"></span>
+                <span class="terminal-title">system_boot.exe</span>
+            </div>
+            <div class="code-display" id="codeDisplay">
+                <span class="keyword">import</span> { <span class="variable">Creativity</span> } <span class="keyword">from</span> <span class="string">"mind"</span>;<br>
+                <span class="keyword">await</span> Creativity.<span class="function">load</span>();
+            </div>
+            <div class="progress-wrapper"><div class="progress-fill" id="progressFill"></div></div>
+            <div class="loading-stats">
+                <span class="status-text" id="statusText">Initializing system...</span>
+                <span class="percentage" id="percentageText">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <header id="mainHeader">
+        <a href="#" class="logo">Port<span class="accent-text">folio</span></a>
+        <div class="header-actions">
+            <button class="lang-switch" id="langToggle">TH</button>
+            <button class="theme-switch" id="themeSwitch"><i class="fas fa-moon" id="themeIcon"></i></button>
+            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </header>
+
+    <!-- Sidebar Menu -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <nav class="sidebar" id="sidebarNav">
+        <button class="close-btn" id="closeMenu"><i class="fas fa-times"></i></button>
+        <ul class="nav-links">
+            <li><a href="#home" class="active" data-i18n="nav_home">Home</a></li>
+            <li><a href="#about" data-i18n="nav_about">About Me</a></li>
+            <li><a href="#education" data-i18n="nav_edu">Education</a></li>
+            <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
+            <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+            <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home">
+        <div class="hero-text reveal reveal-left">
+            <h3 data-i18n="hero_greeting">Hello, my name is</h3>
+            <h1 data-i18n="hero_name">Souttipong Parsertsang</h1>
+            
+            <div class="typing-container">
+                <span data-i18n="hero_role1">I'm a </span>&nbsp;
+                <span class="typed-text" id="typedText"></span><span class="typed-cursor"></span>
+            </div>
+
+            <p data-i18n="hero_desc">Passionate about web design, programming, and continuously learning new technologies.</p>
+            <!-- <p style="font-size: 0.9rem; color: var(--accent-color); font-weight: 500;" data-i18n="hero_hint">3D animated coding avatar</p> -->
+            
+            <div class="social-icons">
+                <a href="https://www.facebook.com/share/19Db3wMhHE/?mibextid=wwXIfr"  target="_blank"><i class="fab fa-facebook-f"></i></a>
+                <a href="mailto:fiksuttipong16@gmail.com"><i class="fas fa-envelope"></i></a>
+                <a href="https://github.com/664407026-coder"  target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://instagram.com/fik_.k"  target="_blank"><i class="fab fa-instagram"></i></a>
+               
+            </div>
+        </div>
+        
+        <div class="hero-image reveal reveal-right">
+            <div class="reveal-box">
+                <div class="hero-code-fx" aria-hidden="true">
+                    <div class="hero-code-window code-window-left">
+                        <div class="code-window-header">
+                            <span class="code-window-dots"><i></i><i></i><i></i></span>
+                            <span class="code-window-filename">portfolio.js</span>
+                            <span class="code-window-live"><i></i> LIVE</span>
+                        </div>
+                        <div class="code-window-editor">
+                            <span class="code-window-lines">01<br>02<br>03<br>04<br>05</span>
+                            <pre class="code-window-source"><code id="heroCodeTypingLeft"></code><span class="code-window-caret"></span></pre>
+                        </div>
+                    </div>
+                    <div class="hero-code-window code-window-right">
+                        <div class="code-window-header">
+                            <span class="code-window-dots"><i></i><i></i><i></i></span>
+                            <span class="code-window-filename">styles.css</span>
+                            <span class="code-window-live"><i></i> LIVE</span>
+                        </div>
+                        <div class="code-window-editor">
+                            <span class="code-window-lines">01<br>02<br>03<br>04<br>05</span>
+                            <pre class="code-window-source"><code id="heroCodeTypingRight"></code><span class="code-window-caret"></span></pre>
+                        </div>
+                    </div>
+                    <span class="hero-code-tag code-float-one">&lt;div&gt;</span>
+                    <span class="hero-code-tag code-float-two">{ }</span>
+                    <span class="hero-code-tag code-float-three">&lt;/&gt;</span>
+                </div>
+                <img class="hero-avatar-still" src="img/coding-avatar-cutout.png" alt="3D cartoon developer coding behind a laptop">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="about">
+        <div class="about-box reveal">
+            <div class="about-text">
+                <h2 class="section-title" style="text-align: left; margin-bottom: 1.5rem;"><span data-i18n="nav_about">About</span> <span class="accent-text">Me</span></h2>
+                <p data-i18n="about_desc1">I am a Business Computer student with a strong interest in software development and programming. 
+                    I have fundamental knowledge of web development using HTML, CSS, JavaScript, PHP, and MySQL, along with basic database design and management skills. I am eager to learn new technologies, work effectively in a team, and continuously improve my technical abilities. I am seeking an internship opportunity in Software Development or other programming-related roles where I can apply my knowledge, gain practical experience, and grow as a developer.
+                </p>
+                <p data-i18n="about_desc2">Hover over the card on the right to see the Full Art Holographic effect, and Click the card to reveal the technologies and tools I specialize in!</p>
+            </div>
+            
+            <div class="about-card-section">
+                <div class="card-hover-elevator">
+                    <div class="tcg-card" id="tcgCard">
+                        <div class="card-face card-front">
+                            <div class="card-content-inner">
+                                <div class="holo-glare"></div>
+                                <img src="img/about-mascot-fullbody.png" alt="Full-body 3D cartoon coder mascot standing and facing forward">
+                            </div>
+                        </div>
+                        <div class="card-face card-back">
+                            <div class="card-content-inner">
+                                <div class="skill-icon"><i class="fab fa-html5"></i></div>
+                                <div class="skill-icon"><i class="fab fa-css3-alt"></i></div>
+                                <div class="skill-icon"><i class="fab fa-js"></i></div>
+                                <div class="skill-icon"><i class="fab fa-react"></i></div>
+                                <div class="skill-icon"><i class="fab fa-python"></i></div>
+                                <div class="skill-icon"><i class="fab fa-node-js"></i></div>
+                                <div class="skill-icon"><i class="fab fa-git-alt"></i></div>
+                                <div class="skill-icon"><i class="fab fa-docker"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education">
+        <h2 class="section-title reveal"><span class="accent-text" data-i18n="edu_title1">Education</span> <span data-i18n="edu_title2">Journey</span></h2>
+        <div class="timeline hover-card reveal">
+            <h3 data-i18n="edu_degree">Bachelor of Business Computer</h3>
+            <h4 data-i18n="edu_uni">Songkhla Rajabhat University</h4>
+            <p data-i18n="edu_desc">4th Year, 1st Semester Current GPA: (3.27)</p>    
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <h2 class="section-title reveal"><span data-i18n="skill_title1">My</span> <span class="accent-text" data-i18n="skill_title2">Skills</span></h2>
+        <p style="text-align: center; margin-bottom: 2rem; color: var(--text-muted); font-size: 0.9rem;" class="reveal" data-i18n="skill_hint">(Try typing on the keyboard!)</p>
+        
+        <div class="kb-container reveal">
+            <div class="kb-row">
+                <div class="keycap key-tab" tabindex="0"><span>TAB</span></div>
+                <div class="keycap" tabindex="0"><i class="fab fa-html5" style="color: #E34F26;"></i><span>HTML</span></div>
+                <div class="keycap" tabindex="0"><i class="fab fa-css3-alt" style="color: #1572B6;"></i><span>CSS</span></div>
+                <div class="keycap" tabindex="0"><i class="fab fa-js" style="color: #F7DF1E;"></i><span>JS</span></div>
+                <div class="keycap" tabindex="0"><i class="fab fa-react" style="color: #61DAFB;"></i><span>React</span></div>
+                <div class="keycap" tabindex="0"><i class="fab fa-node-js" style="color: #339933;"></i><span>Node</span></div>
+                <div class="keycap" tabindex="0"><i class="fas fa-code" style="color: #1f9cf0;"></i><span>Codex</span></div>
+                <div class="keycap" tabindex="0"><i class="fab fa-git-alt" style="color: #F05032;"></i><span>Git</span></div>
+                <div class="keycap" tabindex="0"><i class="fas fa-database" style="color: #4479A1;"></i><span>SQL</span></div>
+                <div class="keycap" tabindex="0"><span>[ {</span></div>
+            </div>
+            <div class="kb-row">
+                <div class="keycap key-shift-l" tabindex="0"><span>CAPS</span></div>
+                <div class="keycap" tabindex="0"><i class="fab fa-figma" style="color: #F24E1E;"></i><span>Figma</span></div>
+                <div class="keycap" tabindex="0"><i class="fab fa-php" style="color: #777BB4;"></i><span>PHP</span></div>
+                <div class="keycap keycap-supabase" tabindex="0">
+                    <svg class="supabase-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M14.7 1.2c.6-.2 1.1.2 1.1.8v7h5c.7 0 1 .8.6 1.3L10.8 22.6c-.5.6-1.5.2-1.4-.6l.9-7H5.2c-.7 0-1-.7-.6-1.3L13.8 1.7c.2-.3.5-.5.9-.5Z" fill="#3ecf8e" />
+                    </svg>
+                    <span>Supabase</span>
+                </div>
+                <div class="keycap" tabindex="0"><i class="fab fa-docker" style="color: #2496ED;"></i><span>Docker</span></div>
+                <div class="keycap" tabindex="0"><span>< ></span></div>
+                <div class="keycap" tabindex="0"><span>; :</span></div>
+                <div class="keycap" tabindex="0"><span>' "</span></div>
+                <div class="keycap key-enter" tabindex="0"><span>ENTER</span></div>
+            </div>
+            <div class="kb-row">
+                <div class="keycap key-ctrl" tabindex="0"><span>CTRL</span></div>
+                <div class="keycap" tabindex="0"><i class="fab fa-windows"></i></div>
+                <div class="keycap" tabindex="0"><span>ALT</span></div>
+                <div class="keycap key-space" tabindex="0"><i class="fas fa-minus" style="color: var(--text-muted); opacity: 0.3;"></i></div>
+                <div class="keycap" tabindex="0"><span>ALT</span></div>
+                <div class="keycap" tabindex="0"><span>FN</span></div>
+                <div class="keycap" tabindex="0"><span>CTRL</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2 class="section-title reveal"><span class="accent-text" data-i18n="proj_title1">Projects</span></h2>
+        
+        <!-- Project category filters are temporarily hidden.
+        <div class="project-filter-menu reveal">
+            <button class="filter-btn active" data-filter="all" data-i18n="filter_all">All</button>
+            <button class="filter-btn" data-filter="web" data-i18n="filter_web">Web Project</button>
+            <button class="filter-btn" data-filter="design" data-i18n="filter_design">Graphic Design</button>
+            <button class="filter-btn" data-filter="video" data-i18n="filter_video">Video Animation</button>
+        </div>
+        -->
+
+        <div class="projects-grid">
+            <a href="https://664407026-coder.github.io/my-resort-app/" target="_blank" rel="noopener noreferrer" class="project-card hover-card reveal" data-category="web">
+                <div class="project-img" style="background-image: url('img/projects/i-thara-cloud-cover.png');"></div>
+                <div class="project-info">
+                    <span class="project-category" data-i18n="category_web">Web</span>
+                    <h3 data-i18n="proj1_name">I-Thara Cloud — Resort &amp; Accounting</h3>
+                    <p data-i18n="proj1_desc">Sign up with email to create a separate resort workspace, manage rooms and prices, check guests in or clear rooms, track room income and expenses, and view a live profit dashboard synced with Firebase.</p>
+                </div>
+            </a>
+            <a href="https://664407026-coder.github.io/Pet/" target="_blank" rel="noopener noreferrer" class="project-card hover-card reveal" data-category="web" style="transition-delay: 0.1s;">
+                <div class="project-img" style="background-image: url('img/projects/pawgress-project-cover.png');"></div>
+                <div class="project-info">
+                    <span class="project-category" data-i18n="category_web">Web</span>
+                    <h3 data-i18n="proj2_name">Pawgress — Grow Together</h3>
+                    <p data-i18n="proj2_desc">Build better daily habits by completing personal goals and watching your pet companion grow with you.</p>
+                </div>
+            </a>
+            <a href="http://starboycoffee.store/" target="_blank" rel="noopener noreferrer" class="project-card hover-card reveal" data-category="web" style="transition-delay: 0.2s;">
+                <div class="project-img" style="background-image: url('img/projects/starboy-coffee-cover.png');"></div>
+                <div class="project-info">
+                    <span class="project-category" data-i18n="category_web">Web</span>
+                    <h3 data-i18n="proj3_name">Starboy Coffee — Cafe Management System</h3>
+                    <p data-i18n="proj3_desc">Browser-based café management from menu and recipe setup through inventory receiving, POS sales, and sales and cost reports. Role-based access gives managers and staff the tools they need. Demo account — Username: ton; Password: 123.</p>
+                </div>
+            </a>
+            <a href="https://664407026-coder.github.io/food-/" target="_blank" rel="noopener noreferrer" class="project-card hover-card reveal" data-category="web" style="transition-delay: 0.3s;">
+                <div class="project-img" style="background-image: url('img/projects/pixelbite-ai-cover.png');"></div>
+                <div class="project-info">
+                    <span class="project-category" data-i18n="category_web">Web</span>
+                    <h3 data-i18n="proj4_name">PixelBite AI — Calorie Tracker</h3>
+                    <p data-i18n="proj4_desc">Snap a meal photo to get an AI calorie estimate, set a daily intake goal, and track your progress in a playful pixel-art style.</p>
+                </div>
+            </a>
+            <!-- Graphic design and video projects are temporarily hidden.
+            <a href="#" class="project-card hover-card reveal" data-category="design" data-preview-src="https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&amp;fit=max&amp;w=1800&amp;q=90" aria-haspopup="dialog">
+                <div class="project-img" style="background-image: url('https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=700&q=80');"></div>
+                <div class="project-info">
+                    <span class="project-category" data-i18n="category_design">Graphic Design</span>
+                    <h3 data-i18n="proj_d1_name">Community Tourism Website</h3>
+                    <p data-i18n="proj_d1_desc">Introduce local destinations and experiences to support community income.</p>
+                </div>
+            </a>
+            <a href="#" class="project-card hover-card reveal" data-category="design" data-preview-src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&amp;fit=max&amp;w=1800&amp;q=90" aria-haspopup="dialog" style="transition-delay: 0.1s;">
+                <div class="project-img" style="background-image: url('https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=700&q=80');"></div>
+                <div class="project-info">
+                    <span class="project-category" data-i18n="category_design">Graphic Design</span>
+                    <h3 data-i18n="proj_d2_name">Social Media Campaign</h3>
+                    <p data-i18n="proj_d2_desc">A coordinated set of promotional graphics for social media channels.</p>
+                </div>
+            </a>
+            <a href="#" class="project-card hover-card reveal" data-category="design" data-preview-src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&amp;fit=max&amp;w=1800&amp;q=90" aria-haspopup="dialog" style="transition-delay: 0.2s;">
+                <div class="project-img" style="background-image: url('https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=700&q=80');"></div>
+                <div class="project-info">
+                    <span class="project-category" data-i18n="category_design">Graphic Design</span>
+                    <h3 data-i18n="proj_d3_name">Event Poster Series</h3>
+                    <p data-i18n="proj_d3_desc">A colorful poster set created to promote a local creative event.</p>
+                </div>
+            </a>
+            <a href="#" class="project-card hover-card reveal" data-category="video" data-video-type="youtube" data-video-src="https://www.youtube-nocookie.com/embed/OTdJEaiHhLM?autoplay=1&amp;rel=0&amp;playsinline=1" aria-haspopup="dialog">
+                <div class="project-img" style="background-image: url('https://i.ytimg.com/vi/OTdJEaiHhLM/maxresdefault.jpg');"></div>
+                <div class="project-info">
+                    <span class="project-category" data-i18n="category_video">Video</span>
+                    <h3 data-i18n="proj_v1_name">AI Music Video — เพลง AI</h3>
+                    <p data-i18n="proj_v1_desc">An AI music video pairing a song with cinematic visual storytelling.</p>
+                </div>
+            </a>
+            <a href="#" class="project-card hover-card reveal" data-category="video" data-video-src="" aria-haspopup="dialog" style="transition-delay: 0.1s;">
+                <div class="project-img" style="background-image: url('https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?auto=format&fit=crop&w=700&q=80');"></div>
+                <div class="project-info">
+                    <span class="project-category" data-i18n="category_video">Video</span>
+                    <h3 data-i18n="proj_v2_name">Product Launch Video</h3>
+                    <p data-i18n="proj_v2_desc">A short product teaser with animated titles and smooth transitions.</p>
+                </div>
+            </a>
+            <a href="#" class="project-card hover-card reveal" data-category="video" data-video-src="" aria-haspopup="dialog" style="transition-delay: 0.2s;">
+                <div class="project-img" style="background-image: url('https://images.unsplash.com/photo-1533929736458-ca588d08c8be?auto=format&fit=crop&w=700&q=80');"></div>
+                <div class="project-info">
+                    <span class="project-category" data-i18n="category_video">Video</span>
+                    <h3 data-i18n="proj_v3_name">Travel Highlight Reel</h3>
+                    <p data-i18n="proj_v3_desc">A lively edit featuring local destinations and travel experiences.</p>
+                </div>
+            </a>
+            -->
+        </div>
+    </section>
+
+    <!-- Project Media Preview -->
+    <dialog class="project-preview-modal" id="projectPreviewModal" aria-labelledby="projectPreviewTitle">
+        <div class="project-preview-content">
+            <button class="project-preview-close" id="closeProjectPreview" type="button" aria-label="Close preview">&times;</button>
+            <h3 id="projectPreviewTitle" class="project-preview-title"></h3>
+            <div id="projectPreviewStage" class="project-preview-stage"></div>
+        </div>
+    </dialog>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2 class="section-title reveal"><span data-i18n="contact_title1">Get In</span> <span class="accent-text" data-i18n="contact_title2">Touch</span></h2>
+        <div class="contact-content reveal">
+            <div class="contact-info-cards">
+                <a href="mailto:fiksuttipong16@gmail.com" target="_blank" class="contact-card hover-card" style="text-decoration: none; color: inherit;">
+                     <i class="fas fa-envelope"></i><h4>Email</h4><p>fiksuttipong16@gmail.com</p>
+                </a>
+                 <a href="tel:+66838824583" target="_blank" class="contact-card hover-card" style="text-decoration: none; color: inherit;">
+                     <i class="fas fa-phone-alt"></i><h4>Phone</h4><p>083-882-4583</p>
+                </a>
+                <a href="https://line.me/ti/p/c-kA_ZKM2v" target="_blank" class="contact-card hover-card" style="text-decoration: none; color: inherit;">
+                     <i class="fab fa-line"></i><h4>LINE ID</h4><p>0993465538</p>
+                </a>
+            </div>
+            <button class="btn-open-modal" id="openModalBtn">
+                <i class="fas fa-paper-plane"></i> <span data-i18n="btn_send_email">Send an Email</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Modal Form -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModalBtn">&times;</span>
+            <h3 data-i18n="modal_title">Send Me a Message</h3>
+            <form class="contact-form" action="mailto:your.email@gmail.com" method="post" enctype="text/plain">
+                <input type="text" name="Name" data-i18n-placeholder="form_name" placeholder="Your Name" required>
+                <input type="email" name="Email" data-i18n-placeholder="form_email" placeholder="Your Email Address" required>
+                <textarea name="Message" rows="4" data-i18n-placeholder="form_msg" placeholder="Write your message here..." required></textarea>
+                <button type="submit" class="btn-submit" data-i18n="form_btn">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Link to JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>

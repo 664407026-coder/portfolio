@@ -246,17 +246,111 @@ projectPreviewModal.addEventListener('click', event => {
 });
 projectPreviewModal.addEventListener('close', () => projectPreviewStage.replaceChildren());
 
+// 8.2 Certificate carousel and in-page certificate preview
+const certViewport = document.getElementById('certViewport');
+const certPrev = document.querySelector('.cert-prev');
+const certNext = document.querySelector('.cert-next');
+if (certViewport) {
+    const certTrack = certViewport.querySelector('.cert-track');
+    const certFirstGroup = certTrack?.querySelector('.cert-group');
+    const getCertLoopWidth = () => certFirstGroup?.getBoundingClientRect().width || 0;
+    let certLoopWidth = getCertLoopWidth();
+    let certLastFrame = 0;
+    let certPausedUntil = 0;
+    let certIsVisible = false;
+
+    if (certLoopWidth) {
+        certViewport.classList.add('is-autoplaying');
+        certViewport.scrollLeft = certLoopWidth;
+    }
+
+    const pauseCertAutoScroll = (duration = 4200) => {
+        certPausedUntil = performance.now() + duration;
+    };
+    const getCertStep = () => {
+        const card = certFirstGroup?.querySelector('.certificate-card');
+        if (!card) return certViewport.clientWidth * 0.8;
+        const gap = parseFloat(getComputedStyle(certFirstGroup).gap) || 0;
+        return card.getBoundingClientRect().width + gap;
+    };
+
+    certPrev?.addEventListener('click', () => {
+        pauseCertAutoScroll();
+        certViewport.scrollBy({ left: -getCertStep(), behavior: 'smooth' });
+    });
+    certNext?.addEventListener('click', () => {
+        pauseCertAutoScroll();
+        certViewport.scrollBy({ left: getCertStep(), behavior: 'smooth' });
+    });
+    certViewport.addEventListener('pointerdown', () => pauseCertAutoScroll());
+    certViewport.addEventListener('wheel', () => pauseCertAutoScroll(3500), { passive: true });
+    certViewport.addEventListener('keydown', () => pauseCertAutoScroll());
+
+    const certAutoScrollFrame = timestamp => {
+        const elapsed = certLastFrame ? Math.min(timestamp - certLastFrame, 50) : 0;
+        certLastFrame = timestamp;
+        const shouldMove = certIsVisible && !document.hidden && !projectPreviewModal.open && timestamp >= certPausedUntil && certLoopWidth > 0;
+        certViewport.classList.toggle('is-autoplaying', shouldMove);
+
+        if (shouldMove) {
+            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const speed = reducedMotion ? 12 : 34;
+            const nextPosition = certViewport.scrollLeft - (speed * elapsed / 1000);
+            certViewport.scrollLeft = nextPosition <= 0 ? certLoopWidth : nextPosition;
+        }
+
+        requestAnimationFrame(certAutoScrollFrame);
+    };
+
+    if ('IntersectionObserver' in window) {
+        const certVisibilityObserver = new IntersectionObserver(entries => {
+            certIsVisible = entries[0]?.isIntersecting || false;
+        }, { threshold: 0.05 });
+        certVisibilityObserver.observe(certViewport);
+    } else {
+        certIsVisible = true;
+    }
+
+    window.addEventListener('resize', () => {
+        certLoopWidth = getCertLoopWidth();
+        if (certLoopWidth) certViewport.scrollLeft = certLoopWidth;
+    });
+    document.addEventListener('visibilitychange', () => { certLastFrame = 0; });
+    requestAnimationFrame(certAutoScrollFrame);
+}
+
+document.querySelectorAll('.certificate-card').forEach(card => {
+    card.addEventListener('click', event => {
+        event.preventDefault();
+        const title = card.querySelector('h3')?.textContent.trim() || '';
+        const image = document.createElement('img');
+        image.src = card.getAttribute('href');
+        image.alt = title;
+        image.addEventListener('error', () => {
+            const message = document.createElement('p');
+            message.className = 'project-preview-empty';
+            message.textContent = currentLang === 'th' ? 'ไม่สามารถโหลดภาพใบรับรองได้' : 'This certificate image could not be loaded.';
+            projectPreviewStage.replaceChildren(message);
+        }, { once: true });
+
+        projectPreviewTitle.textContent = title;
+        projectPreviewStage.replaceChildren(image);
+        projectPreviewModal.showModal();
+    });
+});
+
 // 9. Language Translation
 const langBtn = document.getElementById('langToggle');
 const translations = {
     en: {
-        nav_home: "Home", nav_about: "About Me", nav_edu: "Education", nav_skills: "Skills", nav_projects: "Projects", nav_contact: "Contact",
-        hero_greeting: "Hello, my name is", hero_name: "souttipong parsertsang", hero_role1: "I'm a ",
+        nav_home: "Home", nav_about: "About Me", nav_edu: "Education", nav_certificates: "Certificates", nav_skills: "Skills", nav_projects: "Projects", nav_contact: "Contact",
+        hero_greeting: "Hello, my name is", hero_name: '<span class="name-line">Souttipong</span><span class="name-line">Parsertsang</span>', hero_role1: "I'm a ",
         hero_desc: "Passionate about web design, programming, and continuously learning new technologies.",
         // hero_hint: "3D animated coding avatar",
         about_desc1: "I am a Business Computer student with a strong interest in software development and programming. I have fundamental knowledge of web development using HTML, CSS, JavaScript, PHP, and MySQL, along with basic database design and management skills. I am eager to learn new technologies, work effectively in a team, and continuously improve my technical abilities. I am seeking an internship opportunity in Software Development or other programming-related roles where I can apply my knowledge, gain practical experience, and grow as a developer.",
         about_desc2: "Hover over the card on the right to see the Full Art Holographic effect, and Click the card to reveal the technologies and tools I specialize in!",
         edu_title1: "Education", edu_title2: "Journey", edu_degree: "Bachelor of Business Computer", edu_uni: "Songkhla Rajabhat University", edu_desc: "4th Year, 1st SemesterCurrent GPA: 3.27",
+        cert_title1: "Certificates", cert_title2: "& Training", cert_description: "Courses and certificates I have completed as I continue learning.", cert_steam_title: "STEAM 4INNOVATOR", cert_open_title: "Open Innovation", cert_ai_title: "Generative AI Foundations", cert_ip_title: "IP for Business Innovation (IP 101)", cert_nia: "National Innovation Agency", cert_pearson: "Pearson", cert_prev: "Previous certificates", cert_next: "Next certificates", cert_carousel_label: "Certificate carousel",
         skill_title1: "My", skill_title2: "Skills", skill_hint: "(Try typing on the keyboard!)", proj_title1: "Projects",
         filter_all: "All", filter_web: "Web Project", filter_design: "Graphic Design", filter_video: "Video Animation",
         category_web: "Web", category_design: "Graphic Design", category_video: "Video",
@@ -274,13 +368,14 @@ const translations = {
         modal_title: "Send Me a Message", form_name: "Your Name", form_email: "Your Email Address", form_msg: "Write your message here...", form_btn: "Send Message"
     },
     th: {
-        nav_home: "หน้าหลัก", nav_about: "เกี่ยวกับฉัน", nav_edu: "การศึกษา", nav_skills: "ทักษะ", nav_projects: "ผลงาน", nav_contact: "ติดต่อ",
-        hero_greeting: "สวัสดี ฉันชื่อ", hero_name: "สุทธิพงษ์<br>ประเสริฐสังข์", hero_role1: "ฉันคือ ",
+        nav_home: "หน้าหลัก", nav_about: "เกี่ยวกับฉัน", nav_edu: "การศึกษา", nav_certificates: "ใบรับรอง", nav_skills: "ทักษะ", nav_projects: "ผลงาน", nav_contact: "ติดต่อ",
+        hero_greeting: "สวัสดี ฉันชื่อ", hero_name: '<span class="name-line">สุทธิพงษ์</span><span class="name-line">ประเสริฐสังข์</span>', hero_role1: "ฉันคือ ",
         hero_desc: "มุ่งมั่นพัฒนาทักษะด้านการออกแบบและเขียนโปรแกรม พร้อมเรียนรู้เทคโนโลยีใหม่",
         // hero_hint: "อวตาร 3 มิติขณะกำลังเขียนโค้ด",
         about_desc1: "นักศึกษาสาขาคอมพิวเตอร์ธุรกิจที่มีความสนใจด้านการพัฒนาซอฟต์แวร์และการเขียนโปรแกรม มีพื้นฐานในการพัฒนาเว็บไซต์ด้วย HTML, CSS, JavaScript, PHP และ MySQL พร้อมทั้งสามารถออกแบบและจัดการฐานข้อมูลเบื้องต้นได้ เป็นผู้ที่พร้อมเรียนรู้เทคโนโลยีใหม่ ๆ สามารถทำงานร่วมกับผู้อื่นได้ดี และต้องการพัฒนาทักษะผ่านการฝึกงานในสายงานด้าน Software Development หรือสายงานที่เกี่ยวข้องกับการเขียนโปรแกรม เพื่อนำความรู้ไปประยุกต์ใช้ในการทำงานจริงและพัฒนาตนเองอย่างต่อเนื่อง",
         about_desc2: "ลองเอาเมาส์ไปชี้ที่การ์ดด้านขวาเพื่อดูเอฟเฟกต์การ์ดโฮโลแกรม (Full Art) และ คลิกที่การ์ด เพื่อดูเทคโนโลยีที่ฉันถนัด!",
         edu_title1: "ประวัติ", edu_title2: "การศึกษา", edu_degree: "ปริญญาตรี สาขาคอมพิวเตอร์ธุรกิจ", edu_uni: "มหาวิทยาลัยราชภัฏสงขลา", edu_desc: "ชั้นปีที่ 4 ภาคการศึกษาที่ 1 เกรดเฉลี่ยสะสม (GPA): 3.27",
+        cert_title1: "ใบรับรอง", cert_title2: "และการอบรม", cert_description: "หลักสูตรและใบรับรองที่ได้รับจากการเรียนรู้และพัฒนาทักษะอย่างต่อเนื่อง", cert_steam_title: "STEAM 4INNOVATOR", cert_open_title: "นวัตกรรมแบบเปิด (Open Innovation)", cert_ai_title: "พื้นฐาน Generative AI", cert_ip_title: "ทรัพย์สินทางปัญญาสำหรับธุรกิจนวัตกรรม (IP 101)", cert_nia: "สำนักงานนวัตกรรมแห่งชาติ", cert_pearson: "Pearson", cert_prev: "เลื่อนดูใบรับรองก่อนหน้า", cert_next: "เลื่อนดูใบรับรองถัดไป", cert_carousel_label: "แถบใบรับรอง",
         skill_title1: "ทักษะ", skill_title2: "ของฉัน", skill_hint: "(ลองกดพิมพ์บนคีย์บอร์ดดูสิ!)", proj_title1: "ผลงาน",
         filter_all: "ทั้งหมด", filter_web: "พัฒนาเว็บไซต์", filter_design: "กราฟิกดีไซน์", filter_video: "วิดีโออนิเมชัน",
         category_web: "เว็บไซต์", category_design: "กราฟิก", category_video: "วิดีโอ",
@@ -310,6 +405,10 @@ langBtn.addEventListener('click', () => {
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
         const key = el.getAttribute('data-i18n-placeholder');
         if (translations[currentLang][key]) el.placeholder = translations[currentLang][key];
+    });
+    document.querySelectorAll('[data-i18n-aria-label]').forEach(el => {
+        const key = el.getAttribute('data-i18n-aria-label');
+        if (translations[currentLang][key]) el.setAttribute('aria-label', translations[currentLang][key]);
     });
     renderMascotSpeech();
 });

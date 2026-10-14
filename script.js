@@ -1,6 +1,12 @@
 // 1. Preloader System
-window.addEventListener('load', () => {
+const isMobileViewport = window.matchMedia('(max-width: 700px)').matches;
+window.addEventListener(isMobileViewport ? 'DOMContentLoaded' : 'load', () => {
     const preloader = document.getElementById('preloader');
+    if (isMobileViewport) {
+        preloader.style.display = 'none';
+        revealOnScroll();
+        return;
+    }
     const codeDisplay = document.getElementById('codeDisplay');
     const progressFill = document.getElementById('progressFill');
     const percentageText = document.getElementById('percentageText');
@@ -108,30 +114,67 @@ const sidebarNav = document.getElementById('sidebarNav');
 const sidebarOverlay = document.getElementById('sidebarOverlay');
 const navLinks = document.querySelectorAll('.nav-links a');
 
-function toggleMenu() { sidebarNav.classList.toggle('active'); sidebarOverlay.classList.toggle('active'); }
-menuToggle.addEventListener('click', toggleMenu);
-closeMenu.addEventListener('click', toggleMenu);
-sidebarOverlay.addEventListener('click', toggleMenu);
-navLinks.forEach(link => link.addEventListener('click', toggleMenu));
+function setMenuOpen(isOpen) {
+    sidebarNav.classList.toggle('active', isOpen);
+    sidebarOverlay.classList.toggle('active', isOpen);
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    menuToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+    document.body.classList.toggle('menu-open', isOpen);
+}
+menuToggle.addEventListener('click', () => setMenuOpen(!sidebarNav.classList.contains('active')));
+closeMenu.addEventListener('click', () => setMenuOpen(false));
+sidebarOverlay.addEventListener('click', () => setMenuOpen(false));
+navLinks.forEach(link => link.addEventListener('click', () => setMenuOpen(false)));
+document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') setMenuOpen(false);
+});
+
+if ('IntersectionObserver' in window) {
+    const sectionNavObserver = new IntersectionObserver(entries => {
+        const activeEntry = entries.filter(entry => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!activeEntry) return;
+        const activeHash = `#${activeEntry.target.id}`;
+        navLinks.forEach(link => link.classList.toggle('active', link.getAttribute('href') === activeHash));
+    }, { threshold: 0, rootMargin: '-35% 0px -55% 0px' });
+    document.querySelectorAll('section[id]').forEach(section => sectionNavObserver.observe(section));
+}
 
 let lastScrollY = window.scrollY;
 const header = document.getElementById('mainHeader');
 window.addEventListener('scroll', () => {
+    if (window.matchMedia('(max-width: 700px)').matches) {
+        header.classList.remove('hidden');
+        lastScrollY = window.scrollY;
+        return;
+    }
     if (window.scrollY > lastScrollY && window.scrollY > 80) header.classList.add('hidden');
     else header.classList.remove('hidden');
     lastScrollY = window.scrollY;
-});
+}, { passive: true });
 
 // 6. Scroll Reveal
 const revealElements = document.querySelectorAll('.reveal');
+let revealObserver = null;
+if ('IntersectionObserver' in window) {
+    revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('active');
+            revealObserver.unobserve(entry.target);
+        });
+    }, { threshold: 0.04, rootMargin: '0px 0px -32px 0px' });
+    revealElements.forEach(el => revealObserver.observe(el));
+}
 const revealOnScroll = () => {
+    if (revealObserver) return;
     const windowHeight = window.innerHeight;
     revealElements.forEach(el => {
         const elementTop = el.getBoundingClientRect().top;
         if (elementTop < windowHeight - 100) el.classList.add('active');
     });
 };
-window.addEventListener('scroll', revealOnScroll);
+window.addEventListener('scroll', revealOnScroll, { passive: true });
 
 // 7. Theme Switcher
 const themeSwitch = document.getElementById('themeSwitch');
@@ -256,8 +299,13 @@ if (certViewport) {
     const getCertLoopWidth = () => certFirstGroup?.getBoundingClientRect().width || 0;
     let certLoopWidth = getCertLoopWidth();
     let certLastFrame = 0;
+    let certLastUpdate = 0;
     let certPausedUntil = 0;
     let certIsVisible = false;
+    let certAnimationFrame = null;
+    const certMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let certReducedMotion = certMotionQuery.matches;
+    certMotionQuery.addEventListener?.('change', event => { certReducedMotion = event.matches; });
 
     if (certLoopWidth) {
         certViewport.classList.add('is-autoplaying');
@@ -286,37 +334,56 @@ if (certViewport) {
     certViewport.addEventListener('wheel', () => pauseCertAutoScroll(3500), { passive: true });
     certViewport.addEventListener('keydown', () => pauseCertAutoScroll());
 
+    const stopCertAutoScroll = () => {
+        if (certAnimationFrame === null) return;
+        cancelAnimationFrame(certAnimationFrame);
+        certAnimationFrame = null;
+        certLastFrame = 0;
+        certViewport.classList.remove('is-autoplaying');
+    };
+    const scheduleCertAutoScroll = () => {
+        if (certAnimationFrame !== null || !certIsVisible || document.hidden || projectPreviewModal.open) return;
+        certAnimationFrame = requestAnimationFrame(certAutoScrollFrame);
+    };
     const certAutoScrollFrame = timestamp => {
+        certAnimationFrame = null;
         const elapsed = certLastFrame ? Math.min(timestamp - certLastFrame, 50) : 0;
         certLastFrame = timestamp;
         const shouldMove = certIsVisible && !document.hidden && !projectPreviewModal.open && timestamp >= certPausedUntil && certLoopWidth > 0;
         certViewport.classList.toggle('is-autoplaying', shouldMove);
 
-        if (shouldMove) {
-            const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const speed = reducedMotion ? 12 : 34;
+        const updateInterval = isMobileViewport ? 32 : 16;
+        if (shouldMove && timestamp - certLastUpdate >= updateInterval) {
+            certLastUpdate = timestamp;
+            const speed = certReducedMotion ? 12 : 34;
             const nextPosition = certViewport.scrollLeft - (speed * elapsed / 1000);
             certViewport.scrollLeft = nextPosition <= 0 ? certLoopWidth : nextPosition;
         }
 
-        requestAnimationFrame(certAutoScrollFrame);
+        scheduleCertAutoScroll();
     };
 
     if ('IntersectionObserver' in window) {
         const certVisibilityObserver = new IntersectionObserver(entries => {
             certIsVisible = entries[0]?.isIntersecting || false;
+            if (certIsVisible) scheduleCertAutoScroll();
+            else stopCertAutoScroll();
         }, { threshold: 0.05 });
         certVisibilityObserver.observe(certViewport);
     } else {
         certIsVisible = true;
+        scheduleCertAutoScroll();
     }
 
     window.addEventListener('resize', () => {
         certLoopWidth = getCertLoopWidth();
         if (certLoopWidth) certViewport.scrollLeft = certLoopWidth;
     });
-    document.addEventListener('visibilitychange', () => { certLastFrame = 0; });
-    requestAnimationFrame(certAutoScrollFrame);
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopCertAutoScroll();
+        else scheduleCertAutoScroll();
+    });
+    projectPreviewModal.addEventListener('close', scheduleCertAutoScroll);
 }
 
 document.querySelectorAll('.certificate-card').forEach(card => {
@@ -445,17 +512,19 @@ function playThockSound() {
 }
 
 const keycaps = document.querySelectorAll('.keycap');
-keycaps.forEach(key => {
-    key.addEventListener('mousedown', () => { key.classList.add('pressed'); playThockSound(); });
-    key.addEventListener('mouseup', () => { key.classList.remove('pressed'); });
-    key.addEventListener('mouseleave', () => { key.classList.remove('pressed'); });
-    key.addEventListener('keydown', (e) => {
-        if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); key.classList.add('pressed'); playThockSound(); }
+if (!isMobileViewport) {
+    keycaps.forEach(key => {
+        key.addEventListener('mousedown', () => { key.classList.add('pressed'); playThockSound(); });
+        key.addEventListener('mouseup', () => { key.classList.remove('pressed'); });
+        key.addEventListener('mouseleave', () => { key.classList.remove('pressed'); });
+        key.addEventListener('keydown', (e) => {
+            if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); key.classList.add('pressed'); playThockSound(); }
+        });
+        key.addEventListener('keyup', (e) => {
+            if(e.key === 'Enter' || e.key === ' ') { key.classList.remove('pressed'); }
+        });
     });
-    key.addEventListener('keyup', (e) => {
-        if(e.key === 'Enter' || e.key === ' ') { key.classList.remove('pressed'); }
-    });
-});
+}
 
 const codeTypeTargets = [
     {
@@ -484,6 +553,7 @@ const renderCodeText = value => escapeCodeHtml(value)
 
 codeTypeTargets.forEach(({ element, snippets, delay }) => {
     if (!element) return;
+    if (isMobileViewport && element.id === 'heroCodeTypingRight') return;
     let snippetIndex = 0;
     let cursor = 0;
     let deleting = false;
@@ -504,7 +574,7 @@ codeTypeTargets.forEach(({ element, snippets, delay }) => {
             window.setTimeout(typeNextCharacter, 380);
             return;
         }
-        window.setTimeout(typeNextCharacter, deleting ? 24 : 48);
+        window.setTimeout(typeNextCharacter, deleting ? (isMobileViewport ? 42 : 24) : (isMobileViewport ? 78 : 48));
     };
 
     window.setTimeout(typeNextCharacter, delay);

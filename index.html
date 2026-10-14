@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -41,14 +44,14 @@
         <div class="header-actions">
             <button class="lang-switch" id="langToggle">TH</button>
             <button class="theme-switch" id="themeSwitch"><i class="fas fa-moon" id="themeIcon"></i></button>
-            <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="sidebarNav"><i class="fas fa-bars" aria-hidden="true"></i></button>
         </div>
     </header>
 
     <!-- Sidebar Menu -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <nav class="sidebar" id="sidebarNav">
-        <button class="close-btn" id="closeMenu"><i class="fas fa-times"></i></button>
+        <button class="close-btn" id="closeMenu" type="button" aria-label="Close menu"><i class="fas fa-times" aria-hidden="true"></i></button>
         <ul class="nav-links">
             <li><a href="#home" class="active" data-i18n="nav_home">Home</a></li>
             <li><a href="#about" data-i18n="nav_about">About Me</a></li>
@@ -112,7 +115,7 @@
                     <span class="hero-code-tag code-float-two">{ }</span>
                     <span class="hero-code-tag code-float-three">&lt;/&gt;</span>
                 </div>
-                <img class="hero-avatar-still" src="img/coding-avatar-cutout.png" alt="3D cartoon developer coding behind a laptop">
+                <img class="hero-avatar-still" src="img/coding-avatar-cutout.webp" alt="3D cartoon developer coding behind a laptop" fetchpriority="high" decoding="async">
             </div>
         </div>
     </section>
@@ -134,7 +137,7 @@
                         <div class="card-face card-front">
                             <div class="card-content-inner">
                                 <div class="holo-glare"></div>
-                                <img src="img/about-mascot-fullbody.png" alt="Full-body 3D cartoon coder mascot standing and facing forward">
+                                <img src="img/about-mascot-fullbody.webp" alt="Full-body 3D cartoon coder mascot standing and facing forward" loading="lazy" decoding="async">
                             </div>
                         </div>
                         <div class="card-face card-back">
@@ -175,38 +178,38 @@
                 <div class="cert-viewport" id="certViewport" tabindex="0" role="region" data-i18n-aria-label="cert_carousel_label" aria-label="Certificate carousel">
                     <div class="cert-track">
                 <div class="cert-group">
-                    <a class="certificate-card" href="img/certificates/steam-4innovator.png">
-                        <img src="img/certificates/steam-4innovator.png" alt="STEAM 4INNOVATOR certificate">
+                    <a class="certificate-card" href="img/certificates/steam-4innovator.webp">
+                        <img src="img/certificates/steam-4innovator.webp" alt="STEAM 4INNOVATOR certificate" loading="lazy" decoding="async">
                         <div class="certificate-caption"><h3 data-i18n="cert_steam_title">STEAM 4INNOVATOR</h3><p data-i18n="cert_nia">National Innovation Agency</p></div>
                     </a>
-                    <a class="certificate-card" href="img/certificates/open-innovation.png">
-                        <img src="img/certificates/open-innovation.png" alt="Open Innovation certificate">
+                    <a class="certificate-card" href="img/certificates/open-innovation.webp">
+                        <img src="img/certificates/open-innovation.webp" alt="Open Innovation certificate" loading="lazy" decoding="async">
                         <div class="certificate-caption"><h3 data-i18n="cert_open_title">Open Innovation</h3><p data-i18n="cert_nia">National Innovation Agency</p></div>
                     </a>
-                    <a class="certificate-card" href="img/certificates/generative-ai-foundations.png">
-                        <img src="img/certificates/generative-ai-foundations.png" alt="Generative AI Foundations certificate">
+                    <a class="certificate-card" href="img/certificates/generative-ai-foundations.webp">
+                        <img src="img/certificates/generative-ai-foundations.webp" alt="Generative AI Foundations certificate" loading="lazy" decoding="async">
                         <div class="certificate-caption"><h3 data-i18n="cert_ai_title">Generative AI Foundations</h3><p data-i18n="cert_pearson">Pearson</p></div>
                     </a>
-                    <a class="certificate-card" href="img/certificates/ip-for-business-innovation.png">
-                        <img src="img/certificates/ip-for-business-innovation.png" alt="IP for Business Innovation certificate">
+                    <a class="certificate-card" href="img/certificates/ip-for-business-innovation.webp">
+                        <img src="img/certificates/ip-for-business-innovation.webp" alt="IP for Business Innovation certificate" loading="lazy" decoding="async">
                         <div class="certificate-caption"><h3 data-i18n="cert_ip_title">IP for Business Innovation (IP 101)</h3><p data-i18n="cert_nia">National Innovation Agency</p></div>
                     </a>
                 </div>
                 <div class="cert-group" aria-hidden="true">
-                    <a class="certificate-card" href="img/certificates/steam-4innovator.png" tabindex="-1">
-                        <img src="img/certificates/steam-4innovator.png" alt="">
+                    <a class="certificate-card" href="img/certificates/steam-4innovator.webp" tabindex="-1">
+                        <img src="img/certificates/steam-4innovator.webp" alt="" loading="lazy" decoding="async">
                         <div class="certificate-caption"><h3 data-i18n="cert_steam_title">STEAM 4INNOVATOR</h3><p data-i18n="cert_nia">National Innovation Agency</p></div>
                     </a>
-                    <a class="certificate-card" href="img/certificates/open-innovation.png" tabindex="-1">
-                        <img src="img/certificates/open-innovation.png" alt="">
+                    <a class="certificate-card" href="img/certificates/open-innovation.webp" tabindex="-1">
+                        <img src="img/certificates/open-innovation.webp" alt="" loading="lazy" decoding="async">
                         <div class="certificate-caption"><h3 data-i18n="cert_open_title">Open Innovation</h3><p data-i18n="cert_nia">National Innovation Agency</p></div>
                     </a>
-                    <a class="certificate-card" href="img/certificates/generative-ai-foundations.png" tabindex="-1">
-                        <img src="img/certificates/generative-ai-foundations.png" alt="">
+                    <a class="certificate-card" href="img/certificates/generative-ai-foundations.webp" tabindex="-1">
+                        <img src="img/certificates/generative-ai-foundations.webp" alt="" loading="lazy" decoding="async">
                         <div class="certificate-caption"><h3 data-i18n="cert_ai_title">Generative AI Foundations</h3><p data-i18n="cert_pearson">Pearson</p></div>
                     </a>
-                    <a class="certificate-card" href="img/certificates/ip-for-business-innovation.png" tabindex="-1">
-                        <img src="img/certificates/ip-for-business-innovation.png" alt="">
+                    <a class="certificate-card" href="img/certificates/ip-for-business-innovation.webp" tabindex="-1">
+                        <img src="img/certificates/ip-for-business-innovation.webp" alt="" loading="lazy" decoding="async">
                         <div class="certificate-caption"><h3 data-i18n="cert_ip_title">IP for Business Innovation (IP 101)</h3><p data-i18n="cert_nia">National Innovation Agency</p></div>
                     </a>
                 </div>
@@ -220,45 +223,45 @@
     <!-- Skills Section -->
     <section id="skills">
         <h2 class="section-title reveal"><span data-i18n="skill_title1">My</span> <span class="accent-text" data-i18n="skill_title2">Skills</span></h2>
-        <p style="text-align: center; margin-bottom: 2rem; color: var(--text-muted); font-size: 0.9rem;" class="reveal" data-i18n="skill_hint">(Try typing on the keyboard!)</p>
+        <p class="skills-hint reveal" data-i18n="skill_hint">(Try typing on the keyboard!)</p>
         
         <div class="kb-container reveal">
             <div class="kb-row">
-                <div class="keycap key-tab" tabindex="0"><span>TAB</span></div>
-                <div class="keycap" tabindex="0"><i class="fab fa-html5" style="color: #E34F26;"></i><span>HTML</span></div>
-                <div class="keycap" tabindex="0"><i class="fab fa-css3-alt" style="color: #1572B6;"></i><span>CSS</span></div>
-                <div class="keycap" tabindex="0"><i class="fab fa-js" style="color: #F7DF1E;"></i><span>JS</span></div>
-                <div class="keycap" tabindex="0"><i class="fab fa-react" style="color: #61DAFB;"></i><span>React</span></div>
-                <div class="keycap" tabindex="0"><i class="fab fa-node-js" style="color: #339933;"></i><span>Node</span></div>
-                <div class="keycap" tabindex="0"><i class="fas fa-code" style="color: #1f9cf0;"></i><span>Codex</span></div>
-                <div class="keycap" tabindex="0"><i class="fab fa-git-alt" style="color: #F05032;"></i><span>Git</span></div>
-                <div class="keycap" tabindex="0"><i class="fas fa-database" style="color: #4479A1;"></i><span>SQL</span></div>
-                <div class="keycap" tabindex="0"><span>[ {</span></div>
+                <div class="keycap key-tab key-decoration" tabindex="0"><span>TAB</span></div>
+                <div class="keycap key-skill" tabindex="0"><i class="fab fa-html5" style="color: #E34F26;"></i><span>HTML</span></div>
+                <div class="keycap key-skill" tabindex="0"><i class="fab fa-css3-alt" style="color: #1572B6;"></i><span>CSS</span></div>
+                <div class="keycap key-skill" tabindex="0"><i class="fab fa-js" style="color: #F7DF1E;"></i><span>JS</span></div>
+                <div class="keycap key-skill" tabindex="0"><i class="fab fa-react" style="color: #61DAFB;"></i><span>React</span></div>
+                <div class="keycap key-skill" tabindex="0"><i class="fab fa-node-js" style="color: #339933;"></i><span>Node</span></div>
+                <div class="keycap key-skill" tabindex="0"><i class="fas fa-code" style="color: #1f9cf0;"></i><span>Codex</span></div>
+                <div class="keycap key-skill" tabindex="0"><i class="fab fa-git-alt" style="color: #F05032;"></i><span>Git</span></div>
+                <div class="keycap key-skill" tabindex="0"><i class="fas fa-database" style="color: #4479A1;"></i><span>SQL</span></div>
+                <div class="keycap key-decoration" tabindex="0"><span>[ {</span></div>
             </div>
             <div class="kb-row">
-                <div class="keycap key-shift-l" tabindex="0"><span>CAPS</span></div>
-                <div class="keycap" tabindex="0"><i class="fab fa-figma" style="color: #F24E1E;"></i><span>Figma</span></div>
-                <div class="keycap" tabindex="0"><i class="fab fa-php" style="color: #777BB4;"></i><span>PHP</span></div>
-                <div class="keycap keycap-supabase" tabindex="0">
+                <div class="keycap key-shift-l key-decoration" tabindex="0"><span>CAPS</span></div>
+                <div class="keycap key-skill" tabindex="0"><i class="fab fa-figma" style="color: #F24E1E;"></i><span>Figma</span></div>
+                <div class="keycap key-skill" tabindex="0"><i class="fab fa-php" style="color: #777BB4;"></i><span>PHP</span></div>
+                <div class="keycap keycap-supabase key-skill" tabindex="0">
                     <svg class="supabase-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                         <path d="M14.7 1.2c.6-.2 1.1.2 1.1.8v7h5c.7 0 1 .8.6 1.3L10.8 22.6c-.5.6-1.5.2-1.4-.6l.9-7H5.2c-.7 0-1-.7-.6-1.3L13.8 1.7c.2-.3.5-.5.9-.5Z" fill="#3ecf8e" />
                     </svg>
                     <span>Supabase</span>
                 </div>
-                <div class="keycap" tabindex="0"><i class="fab fa-docker" style="color: #2496ED;"></i><span>Docker</span></div>
-                <div class="keycap" tabindex="0"><span>< ></span></div>
-                <div class="keycap" tabindex="0"><span>; :</span></div>
-                <div class="keycap" tabindex="0"><span>' "</span></div>
-                <div class="keycap key-enter" tabindex="0"><span>ENTER</span></div>
+                <div class="keycap key-skill" tabindex="0"><i class="fab fa-docker" style="color: #2496ED;"></i><span>Docker</span></div>
+                <div class="keycap key-decoration" tabindex="0"><span>< ></span></div>
+                <div class="keycap key-decoration" tabindex="0"><span>; :</span></div>
+                <div class="keycap key-decoration" tabindex="0"><span>' "</span></div>
+                <div class="keycap key-enter key-decoration" tabindex="0"><span>ENTER</span></div>
             </div>
             <div class="kb-row">
-                <div class="keycap key-ctrl" tabindex="0"><span>CTRL</span></div>
-                <div class="keycap" tabindex="0"><i class="fab fa-windows"></i></div>
-                <div class="keycap" tabindex="0"><span>ALT</span></div>
-                <div class="keycap key-space" tabindex="0"><i class="fas fa-minus" style="color: var(--text-muted); opacity: 0.3;"></i></div>
-                <div class="keycap" tabindex="0"><span>ALT</span></div>
-                <div class="keycap" tabindex="0"><span>FN</span></div>
-                <div class="keycap" tabindex="0"><span>CTRL</span></div>
+                <div class="keycap key-ctrl key-decoration" tabindex="0"><span>CTRL</span></div>
+                <div class="keycap key-decoration" tabindex="0"><i class="fab fa-windows"></i></div>
+                <div class="keycap key-decoration" tabindex="0"><span>ALT</span></div>
+                <div class="keycap key-space key-decoration" tabindex="0"><i class="fas fa-minus" style="color: var(--text-muted); opacity: 0.3;"></i></div>
+                <div class="keycap key-decoration" tabindex="0"><span>ALT</span></div>
+                <div class="keycap key-decoration" tabindex="0"><span>FN</span></div>
+                <div class="keycap key-decoration" tabindex="0"><span>CTRL</span></div>
             </div>
         </div>
     </section>
@@ -278,7 +281,7 @@
 
         <div class="projects-grid">
             <a href="https://664407026-coder.github.io/my-resort-app/" target="_blank" rel="noopener noreferrer" class="project-card hover-card reveal" data-category="web">
-                <div class="project-img" style="background-image: url('img/projects/i-thara-cloud-cover.png');"></div>
+                <img class="project-img" src="img/projects/i-thara-cloud-cover.webp" alt="I-Thara Cloud resort management dashboard" loading="lazy" decoding="async">
                 <div class="project-info">
                     <span class="project-category" data-i18n="category_web">Web</span>
                     <h3 data-i18n="proj1_name">I-Thara Cloud — Resort &amp; Accounting</h3>
@@ -286,7 +289,7 @@
                 </div>
             </a>
             <a href="https://664407026-coder.github.io/Pet/" target="_blank" rel="noopener noreferrer" class="project-card hover-card reveal" data-category="web" style="transition-delay: 0.1s;">
-                <div class="project-img" style="background-image: url('img/projects/pawgress-project-cover.png');"></div>
+                <img class="project-img" src="img/projects/pawgress-project-cover.webp" alt="Pawgress daily goals and pet companion app" loading="lazy" decoding="async">
                 <div class="project-info">
                     <span class="project-category" data-i18n="category_web">Web</span>
                     <h3 data-i18n="proj2_name">Pawgress — Grow Together</h3>
@@ -294,7 +297,7 @@
                 </div>
             </a>
             <a href="http://starboycoffee.store/" target="_blank" rel="noopener noreferrer" class="project-card hover-card reveal" data-category="web" style="transition-delay: 0.2s;">
-                <div class="project-img" style="background-image: url('img/projects/starboy-coffee-cover.png');"></div>
+                <img class="project-img" src="img/projects/starboy-coffee-cover.webp" alt="Starboy Coffee cafe management system" loading="lazy" decoding="async">
                 <div class="project-info">
                     <span class="project-category" data-i18n="category_web">Web</span>
                     <h3 data-i18n="proj3_name">Starboy Coffee — Cafe Management System</h3>
@@ -302,7 +305,7 @@
                 </div>
             </a>
             <a href="https://664407026-coder.github.io/food-/" target="_blank" rel="noopener noreferrer" class="project-card hover-card reveal" data-category="web" style="transition-delay: 0.3s;">
-                <div class="project-img" style="background-image: url('img/projects/pixelbite-ai-cover.png');"></div>
+                <img class="project-img" src="img/projects/pixelbite-ai-cover.webp" alt="PixelBite AI calorie tracking app" loading="lazy" decoding="async">
                 <div class="project-info">
                     <span class="project-category" data-i18n="category_web">Web</span>
                     <h3 data-i18n="proj4_name">PixelBite AI — Calorie Tracker</h3>
